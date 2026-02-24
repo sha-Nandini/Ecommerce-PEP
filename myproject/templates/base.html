@@ -1,0 +1,92 @@
+
+
+
+<!DOCTYPE html>
+<html>
+<head>
+    <title>My Ecommerce</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css" rel="stylesheet">
+</head>
+<body>
+
+<nav class="navbar navbar-dark bg-dark px-4">
+    <div class="container-fluid d-flex justify-content-between align-items-center">
+
+        <!-- Left: Logo -->
+        <a class="navbar-brand fw-bold" href="/">MyStore</a>
+
+        <!-- Right Side -->
+        <div class="d-flex align-items-center gap-3">
+
+            <!-- Search Bar -->
+            <form class="position-relative" method="GET" action="/">
+                <input class="form-control pe-5"
+                       type="search"
+                       name="search"
+                       placeholder="Search..."
+                       value="{{ request.GET.search }}"
+                       style="width: 250px;">
+
+                <button type="submit"
+                        class="btn position-absolute top-50 end-0 translate-middle-y border-0 bg-transparent text-dark me-2">
+                    <i class="bi bi-search"></i>
+                </button>
+            </form>
+
+            {% if user.is_authenticated %}
+
+                <!-- Cart -->
+                <a href="{% url 'view_cart' %}" 
+                   class="text-white fs-5 position-relative">
+
+                    <i class="bi bi-cart"></i>
+
+                    <span id="cart-count"
+                          class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger"
+                          style="font-size: 10px;">
+
+                        {% with user.cart.cartitem_set.all as items %}
+                            {{ items|length }}
+                        {% endwith %}
+
+                    </span>
+                </a>
+
+                <!-- Profile -->
+                <a href="{% url 'profile' %}" class="text-info fs-5">
+                    <i class="bi bi-person-circle"></i>
+                </a>
+
+                <!-- Logout -->
+                <a href="{% url 'logout' %}" class="text-warning fs-5">
+                    <i class="bi bi-box-arrow-right"></i>
+                </a>
+
+            {% else %}
+
+                <!-- Login -->
+                <a href="{% url 'account_login' %}" 
+                   class="btn btn-outline-light btn-sm">
+                    Login
+                </a>
+
+                <!-- Signup -->
+                <a href="{% url 'account_signup' %}" 
+                   class="btn btn-primary btn-sm">
+                    Sign Up
+                </a>
+
+            {% endif %}
+
+        </div>
+    </div>
+</nav>
+
+<div class="container mt-4">
+    {% block content %}
+    {% endblock %}
+</div>
+
+</body>
+</html>

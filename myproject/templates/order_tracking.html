@@ -1,0 +1,15 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<h2 class="mb-4">Order Tracking</h2>
+<div class="card p-3 mb-3">
+  <h5>Order #{{ order.id }}</h5>
+  <p>Status: <span class="fw-bold">{{ order.status }}</span></p>
+  <p>Tracking Number: {{ order.tracking_number }}</p>
+  <div class="progress" style="height: 30px;">
+    {% for step, label in [('Pending','Ordered'),('Confirmed','Packed'),('Shipped','Shipped'),('Out for Delivery','Out for Delivery'),('Delivered','Delivered')] %}
+      <div class="progress-bar {% if order.status == step or order.status == label %}bg-success{% else %}bg-secondary{% endif %}" role="progressbar" style="width:20%">{{ label }}</div>
+    {% endfor %}
+  </div>
+</div>
+{% endblock %}
